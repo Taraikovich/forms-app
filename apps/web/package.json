@@ -14,6 +14,7 @@
     "@repo/ui": "*",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
+    "cookies-next": "^5.1.0",
     "jose": "^5.9.6",
     "next": "^15.1.6",
     "react": "^19.0.0",

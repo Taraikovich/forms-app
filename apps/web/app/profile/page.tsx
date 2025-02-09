@@ -1,7 +1,9 @@
-import { getProfile } from '@/lib/actions';
+import UserProfile from '@/components/user-profile';
 
 export default async function ProfilePage() {
-  const res = await getProfile();
-
-  return <h1>{res.message}</h1>;
+  return (
+    <div>
+      <UserProfile />
+    </div>
+  );
 }

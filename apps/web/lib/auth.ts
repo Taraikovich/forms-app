@@ -5,7 +5,6 @@ import { redirect } from 'next/navigation';
 import { BACKEND_URL } from './constants';
 import { FormState, SigninFormSchema, SignupFormSchema } from './type';
 import { createSession, updateTokens } from './session';
-import { json } from 'stream/consumers';
 
 export async function signUp(
   prevState: FormState,
@@ -68,6 +67,7 @@ export async function signIn(
 
   if (response.ok) {
     const result = await response.json();
+
     await createSession({
       user: {
         id: result.id,
@@ -100,15 +100,7 @@ export async function refreshToken(oldRefreshToken: string) {
 
     const { accessToken, refreshToken } = await response.json();
 
-    const updateRes = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/auth/update`,
-      {
-        method: 'POST',
-        body: JSON.stringify({ accessToken, refreshToken }),
-      }
-    );
-
-    if (!updateRes.ok) throw new Error('Failed to update the tokens!');
+    updateTokens({ accessToken, refreshToken });
 
     return accessToken;
   } catch (error) {

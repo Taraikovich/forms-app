@@ -15,7 +15,12 @@ export default function SignInForm() {
       <FormInput label="Email address" type="email" state={state} />
       <FormInput label="Password" type="password" state={state} />
 
-      <Button type="submit" className="mb-3 w-100" aria-disabled={isPanding}>
+      <Button
+        type="submit"
+        variant="outline-primary"
+        className="w-100"
+        aria-disabled={isPanding}
+      >
         {isPanding ? 'Submiting...' : 'Sign In'}
       </Button>
     </Form>

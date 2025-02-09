@@ -9,14 +9,26 @@ export default async function SignInButton() {
     <div>
       {!session || !session.user ? (
         <>
-          <Link href="/auth/signin">SIgn In</Link>
-          <Link href="/auth/signup">SIgn Up</Link>
+          <Link href="/auth/signin">
+            <Button variant="outline-primary m-1" size="sm">
+              SIgn In
+            </Button>
+          </Link>
+          <Link href="/auth/signup">
+            <Button variant="outline-primary m-1" size="sm">
+              SIgn Up
+            </Button>
+          </Link>
         </>
       ) : (
         <>
-          <p>{session.user.name}</p>
-          <Button variant="light" onClick={deleteSession}>
-            signout
+          <span>{session.user.name}</span>
+          <Button
+            variant="outline-primary m-1"
+            size="sm"
+            onClick={deleteSession}
+          >
+            SIgn Out
           </Button>
         </>
       )}

@@ -3,7 +3,6 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { jwtVerify, SignJWT } from 'jose';
-import { authFetch } from './authFetch';
 import { BACKEND_URL } from './constants';
 import { Role } from './type';
 
@@ -31,8 +30,9 @@ export async function createSession(payload: Session) {
     .setExpirationTime('7d')
     .sign(encodedKey);
 
-  (await cookies()).set('session', session, {
-    httpOnly: true,
+  const cookieStore = await cookies();
+  cookieStore.set('session', session, {
+    // httpOnly: true,
     secure: true,
     expires: expireAt,
     sameSite: 'lax',
@@ -41,7 +41,8 @@ export async function createSession(payload: Session) {
 }
 
 export async function getSession() {
-  const cookie = (await cookies()).get('session')?.value;
+  const cookieStore = await cookies();
+  const cookie = cookieStore.get('session')?.value;
 
   if (!cookie) return null;
 
@@ -64,7 +65,8 @@ export async function updateTokens({
   accessToken: string;
   refreshToken: string;
 }) {
-  const cookie = (await cookies()).get('session')?.value;
+  const cookieStore = await cookies();
+  const cookie = cookieStore.get('session')?.value;
 
   if (!cookie) return null;
 
@@ -82,13 +84,13 @@ export async function updateTokens({
 }
 
 export async function deleteSession() {
-  const res = await authFetch(`${BACKEND_URL}/auth/signout`, {
+  const res = await fetch(`${BACKEND_URL}/auth/signout`, {
     method: 'POST',
   });
 
-  if (res.ok) {
+  if (res.ok || res.status === 401) {
     (await cookies()).delete('session');
-    redirect('/');
+    redirect('/auth/signin');
   } else {
     console.log(res);
   }
