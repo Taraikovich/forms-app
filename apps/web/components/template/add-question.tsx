@@ -19,7 +19,7 @@ export default function AddQuestion({
   const [newQuestion, setNewQuestion] = useState<Question>({
     id: Date.now().toString(),
     title: '',
-    describe: '',
+    description: '',
     answerType: 'single_line',
   });
 
