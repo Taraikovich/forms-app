@@ -9,7 +9,7 @@ export type AnswerType = 'single_line' | 'multi_line' | 'integer' | 'checkbox';
 export interface Question {
   id: string;
   title: string;
-  describe: string;
+  description: string;
   answerType: AnswerType;
 }
 
@@ -81,8 +81,8 @@ export default function QuestionItem({
             as="textarea"
             rows={2}
             placeholder="Description"
-            value={question.describe}
-            onChange={(e) => updateQuestion(index, 'describe', e.target.value)}
+            value={question.description}
+            onChange={(e) => updateQuestion(index, 'description', e.target.value)}
             required
           />
           <Form.Control.Feedback type="invalid">

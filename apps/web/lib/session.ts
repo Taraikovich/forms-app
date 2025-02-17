@@ -20,7 +20,9 @@ const secretKey = process.env.SESSION_SECRET_KEY;
 const encodedKey = new TextEncoder().encode(secretKey);
 
 export async function createSession(payload: Session) {
-  const expireAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+  const SEVEN_DAYS_IN_MS = 7 * 24 * 60 * 60 * 1000;
+
+  const expireAt = new Date(Date.now() + SEVEN_DAYS_IN_MS);
 
   const session = await new SignJWT(payload)
     .setProtectedHeader({

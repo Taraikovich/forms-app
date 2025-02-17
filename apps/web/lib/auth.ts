@@ -96,7 +96,7 @@ export async function refreshToken(oldRefreshToken: string) {
       }),
     });
 
-    if (!response.ok) throw new Error('Faild to refresh token!');
+    if (!response.ok) throw new Error('Failed to refresh token!');
 
     const { accessToken, refreshToken } = await response.json();
 
@@ -104,7 +104,7 @@ export async function refreshToken(oldRefreshToken: string) {
 
     return accessToken;
   } catch (error) {
-    console.error('Refresh token faild: ', error);
+    console.error('Refresh token failed: ', error);
     return null;
   }
 }
