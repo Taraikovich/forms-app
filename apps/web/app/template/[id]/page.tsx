@@ -1,12 +1,10 @@
-'use client';
-
 import BackButton from '@/components/template/back-button';
 import { AnswerType } from '@/components/template/question-item';
 import { BACKEND_URL } from '@/lib/constants';
 import axios from 'axios';
 import { format } from 'date-fns';
 import Image from 'next/image';
-import { use, useEffect, useState } from 'react';
+import { Suspense } from 'react';
 import {
   Card,
   CardBody,
@@ -21,16 +19,6 @@ import {
 } from 'react-bootstrap';
 import Markdown from 'react-markdown';
 
-type Template = {
-  title: string;
-  description: string;
-  image: string;
-  questions: Question[];
-  topic: { name: string };
-  creator: { name: string };
-  createdAt: string;
-};
-
 type Question = {
   id: string;
   title: string;
@@ -38,75 +26,65 @@ type Question = {
   type: AnswerType;
 };
 
-export default function TemplatePage({
+async function fetchTemplate(id: string) {
+  const response = await axios.get(`${BACKEND_URL}/templates/template/${id}`);
+
+  return response.data;
+}
+
+export default async function TemplatePage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = use(params);
-  const [data, setData] = useState<Template>();
+  const id = (await params).id;
 
-  useEffect(() => {
-    async function getTemplate() {
-      const response = await axios.get(
-        `${BACKEND_URL}/templates/template/${id}`
-      );
-      setData(response.data);
-    }
-    getTemplate();
-  }, [id]);
-
-  if (!data) return <h1>Loading...</h1>;
+  const template = await fetchTemplate(id);
 
   return (
     <main>
-      {data && (
-        <>
-          {' '}
-          <h1 className="text-center">{data.title}</h1>
-          <Container>
-            <Row sm={1} md={2}>
-              <Col
-                className=" d-flex justify-content-xl-between align-items-start"
-                md={5}
-              >
-                <BackButton />
-                <Image
-                  src={data.image}
-                  alt={data.title}
-                  width={300}
-                  height={200}
-                  priority={true}
-                  style={{ objectFit: 'cover' }}
-                />
-              </Col>
-              <Col md={7}>
-                <Markdown>{data.description}</Markdown>
-                <p>
-                  Created by <b>{data.creator.name}</b> at{' '}
-                  <b>{format(data.createdAt, 'yyyy-MM-dd hh:mm')}</b>
-                </p>
-                <p>
-                  Topic: <b>{data.topic.name}</b>
-                </p>
-              </Col>
-            </Row>
-          </Container>
-          <Form>
-            <Container>
-              {data.questions.map((question: Question) => (
-                <Card key={question.id} className="m-2">
-                  <CardBody>
-                    <CardTitle>{question.title}</CardTitle>
-                    <CardText>{question.description}</CardText>
-                    <Input answerType={question.type} />
-                  </CardBody>
-                </Card>
-              ))}
-            </Container>
-          </Form>
-        </>
-      )}
+      <h1 className="text-center">{template.title}</h1>
+      <Container>
+        <Row sm={1} md={2}>
+          <Col
+            className=" d-flex justify-content-xl-between align-items-start"
+            md={5}
+          >
+            <BackButton />
+            <Image
+              src={template.image}
+              alt={template.title}
+              width={300}
+              height={200}
+              priority={true}
+              style={{ objectFit: 'cover' }}
+            />
+          </Col>
+          <Col md={7}>
+            <Markdown>{template.description}</Markdown>
+            <p>
+              Created by <b>{template.creator.name}</b> at{' '}
+              <b>{format(template.createdAt, 'yyyy-MM-dd hh:mm')}</b>
+            </p>
+            <p>
+              Topic: <b>{template.topic.name}</b>
+            </p>
+          </Col>
+        </Row>
+      </Container>
+      <Form>
+        <Container>
+          {template.questions.map((question: Question) => (
+            <Card key={question.id} className="m-2">
+              <CardBody>
+                <CardTitle>{question.title}</CardTitle>
+                <CardText>{question.description}</CardText>
+                <Input answerType={question.type} />
+              </CardBody>
+            </Card>
+          ))}
+        </Container>
+      </Form>
     </main>
   );
 }

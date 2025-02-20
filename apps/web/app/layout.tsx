@@ -26,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-bs-theme="light">
+    <html lang="en" data-bs-theme="dark">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <AppBar />
         <Stack gap={3} className="mx-auto mt-2" style={{ maxWidth: '95%' }}>

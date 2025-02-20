@@ -7,8 +7,11 @@ import {
   NavbarToggle,
 } from 'react-bootstrap';
 import SignInButton from './signin-bitton';
+import { getSession } from '@/lib/session';
 
-export default function AppBar() {
+export default async function AppBar() {
+  const session = await getSession();
+
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
@@ -21,9 +24,11 @@ export default function AppBar() {
             <Link href="/dashboard" className="m-1 text-decoration-none">
               Dashboard
             </Link>
-            <Link href="/profile" className="m-1 text-decoration-none">
-              Profile
-            </Link>
+            {session?.user.role === 'ADMIN' && (
+              <Link href="/admin" className="m-1 text-decoration-none">
+                Administration
+              </Link>
+            )}
           </Nav>
           <Nav>
             <SignInButton />
