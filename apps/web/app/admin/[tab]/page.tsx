@@ -2,6 +2,7 @@
 
 import UserList from '@/components/admin/user-list';
 import { useParams, useRouter } from 'next/navigation';
+import { Suspense } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 
 export default function TabPage() {
@@ -16,7 +17,9 @@ export default function TabPage() {
         onSelect={(key) => key && router.push(`/admin/${key}`)}
       >
         <Tab eventKey="users" title="Users">
-          <UserList />
+          <Suspense>
+            <UserList />
+          </Suspense>
         </Tab>
         <Tab eventKey="templates" title="Templates">
           Tab content for Profile

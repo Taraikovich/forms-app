@@ -2,7 +2,7 @@ import { Form, InputGroup, Tab, Tabs } from 'react-bootstrap';
 import FormGroup from './form-group';
 import { useState } from 'react';
 import Markdown from 'react-markdown';
-import { FieldErrors, UseFormRegister } from 'react-hook-form';
+import { UseFormRegister } from 'react-hook-form';
 import { Inputs } from './create-template-form';
 
 interface DescriptionInputProps {

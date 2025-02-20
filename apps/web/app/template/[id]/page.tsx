@@ -4,7 +4,6 @@ import { BACKEND_URL } from '@/lib/constants';
 import axios from 'axios';
 import { format } from 'date-fns';
 import Image from 'next/image';
-import { Suspense } from 'react';
 import {
   Card,
   CardBody,
