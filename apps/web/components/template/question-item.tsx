@@ -11,6 +11,7 @@ export interface Question {
   title: string;
   description: string;
   answerType: AnswerType;
+  type?: AnswerType;
 }
 
 export const questionTypes: { value: AnswerType; label: string }[] = [
@@ -82,7 +83,9 @@ export default function QuestionItem({
             rows={2}
             placeholder="Description"
             value={question.description}
-            onChange={(e) => updateQuestion(index, 'description', e.target.value)}
+            onChange={(e) =>
+              updateQuestion(index, 'description', e.target.value)
+            }
             required
           />
           <Form.Control.Feedback type="invalid">

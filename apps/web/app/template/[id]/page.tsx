@@ -1,29 +1,11 @@
+import CreateForm from '@/components/form/create-form';
 import BackButton from '@/components/template/back-button';
-import { AnswerType } from '@/components/template/question-item';
 import { BACKEND_URL } from '@/lib/constants';
 import axios from 'axios';
 import { format } from 'date-fns';
 import Image from 'next/image';
-import {
-  Card,
-  CardBody,
-  CardText,
-  CardTitle,
-  Col,
-  Container,
-  Form,
-  FormCheck,
-  FormControl,
-  Row,
-} from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import Markdown from 'react-markdown';
-
-type Question = {
-  id: string;
-  title: string;
-  description: string;
-  type: AnswerType;
-};
 
 async function fetchTemplate(id: string) {
   const response = await axios.get(`${BACKEND_URL}/templates/template/${id}`);
@@ -71,28 +53,7 @@ export default async function TemplatePage({
           </Col>
         </Row>
       </Container>
-      <Form>
-        <Container>
-          {template.questions.map((question: Question) => (
-            <Card key={question.id} className="m-2">
-              <CardBody>
-                <CardTitle>{question.title}</CardTitle>
-                <CardText>{question.description}</CardText>
-                <Input answerType={question.type} />
-              </CardBody>
-            </Card>
-          ))}
-        </Container>
-      </Form>
+      <CreateForm templateId={id} questions={template.questions} />
     </main>
   );
-}
-
-function Input({ answerType }: { answerType: AnswerType }) {
-  if (answerType === 'single_line') return <FormControl type="text" />;
-  if (answerType === 'multi_line')
-    return <FormControl as="textarea" rows={3} />;
-  if (answerType === 'integer') return <FormControl type="number" />;
-  if (answerType === 'checkbox')
-    return <FormCheck type="checkbox" label="Yes" />;
 }
