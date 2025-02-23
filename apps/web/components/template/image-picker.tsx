@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button, Card, Form, Stack } from 'react-bootstrap';
 import FormGroup from './form-group';
 import { Inputs } from './create-template-form';
@@ -8,14 +8,23 @@ import { FieldErrors, UseFormRegister } from 'react-hook-form';
 interface ImageInputProps {
   register: UseFormRegister<Inputs>;
   errors?: FieldErrors<Inputs>;
+  imageUrl?: string;
 }
 
-export default function ImagePicker({ register, errors }: ImageInputProps) {
+export default function ImagePicker({
+  register,
+  errors,
+  imageUrl,
+}: ImageInputProps) {
   const [pickedImage, setPickedImage] = useState<string | ArrayBuffer | null>(
     null
   );
   const imageInput = useRef<HTMLInputElement>(null);
-  const { ref, ...rest } = register('image', { required: true });
+  const { ref, ...rest } = register('image');
+
+  useEffect(() => {
+    if (imageUrl) setPickedImage(imageUrl);
+  }, [imageUrl]);
 
   function handlePickClick() {
     if (imageInput.current) {
@@ -72,7 +81,12 @@ export default function ImagePicker({ register, errors }: ImageInputProps) {
             <Form.Text className="text-muted">No image</Form.Text>
           )}
           {pickedImage && typeof pickedImage === 'string' && (
-            <Image src={pickedImage} alt="User's image" fill />
+            <Image
+              src={pickedImage}
+              alt="User's image"
+              sizes="100px 100px"
+              fill
+            />
           )}
         </Card>
         <Button

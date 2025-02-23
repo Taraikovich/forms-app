@@ -1,17 +1,23 @@
 import { Form, InputGroup, Tab, Tabs } from 'react-bootstrap';
 import FormGroup from './form-group';
-import { useState } from 'react';
 import Markdown from 'react-markdown';
-import { UseFormRegister } from 'react-hook-form';
+import { Control, UseFormRegister, useWatch } from 'react-hook-form';
 import { Inputs } from './create-template-form';
 
 interface DescriptionInputProps {
   register: UseFormRegister<Inputs>;
+  control: Control<Inputs>;
 }
 
-export default function DescriptionInput({ register }: DescriptionInputProps) {
-  const [textarea, setTextarea] = useState('');
-
+export default function DescriptionInput({
+  register,
+  control,
+}: DescriptionInputProps) {
+  const description = useWatch({
+    control,
+    name: 'description',
+    defaultValue: '',
+  });
   return (
     <FormGroup label="Description:">
       <Tabs defaultActiveKey="editor">
@@ -20,13 +26,10 @@ export default function DescriptionInput({ register }: DescriptionInputProps) {
             <Form.Control
               as="textarea"
               rows={3}
-              value={textarea}
               required
               style={{ height: '120px' }}
               {...register('description', {
                 required: true,
-                onChange: (e) =>
-                  setTextarea((e.target as HTMLTextAreaElement).value),
               })}
             />
             <Form.Control.Feedback type="invalid">
@@ -36,13 +39,13 @@ export default function DescriptionInput({ register }: DescriptionInputProps) {
         </Tab>
         <Tab eventKey="preview" title="Preview">
           <section
-            className="border-1 p-2 bg-light"
+            className="border-1 p-2"
             style={{
               height: '120px',
               overflow: 'auto',
             }}
           >
-            <Markdown>{textarea}</Markdown>
+            <Markdown>{description}</Markdown>
           </section>
         </Tab>
       </Tabs>

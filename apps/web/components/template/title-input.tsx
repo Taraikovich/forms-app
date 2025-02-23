@@ -16,7 +16,7 @@ export default function TitleInput({ register }: TitleInputProps) {
         <Form.Control
           type="text"
           placeholder="Enter title"
-          maxLength={10}
+          maxLength={30}
           required
           {...register('title', { required: true })}
         />

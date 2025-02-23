@@ -57,13 +57,26 @@ export default function AddQuestion({
     <DndProvider backend={HTML5Backend}>
       <FormGroup label="Add question:">
         {questions.map((question, i) => (
-          <QuestionItem
-            key={question.id}
-            question={question}
-            index={i}
-            moveQuestion={moveQuestion}
-            updateQuestion={updateQuestion}
-          />
+          <div key={question.id}>
+            <Button
+              variant="outline-danger"
+              size="sm"
+              style={{ position: 'absolute', right: '5%', zIndex: '100' }}
+              onClick={() => {
+                onAddQuestion((prev) =>
+                  prev.filter((q) => q.id !== question.id)
+                );
+              }}
+            >
+              <i className="bi bi-x-lg"></i>
+            </Button>
+            <QuestionItem
+              question={question}
+              index={i}
+              moveQuestion={moveQuestion}
+              updateQuestion={updateQuestion}
+            />
+          </div>
         ))}
 
         <FormGroup label="New question:">

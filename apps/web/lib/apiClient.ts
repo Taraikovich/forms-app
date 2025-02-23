@@ -21,7 +21,7 @@ class ApiClient {
         refresh: refreshToken,
       });
       return response.data;
-    } catch (error: unknown) {
+    } catch {
       deleteSession();
       throw new Error('Token refresh failed');
     }

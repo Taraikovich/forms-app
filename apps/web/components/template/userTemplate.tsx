@@ -83,7 +83,7 @@ export default function UserTemplates() {
                   />
                 </td>
                 <td>
-                  <Link href={`/template/${template.id}`} passHref>
+                  <Link href={`/template/edit/${template.id}`} passHref>
                     {template.title}
                   </Link>
                 </td>

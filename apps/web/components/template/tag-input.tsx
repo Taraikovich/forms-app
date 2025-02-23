@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Badge, Button, Form, Stack, ListGroup } from 'react-bootstrap';
 import FormGroup from './form-group';
 import { UseFormRegister } from 'react-hook-form';
@@ -8,14 +8,20 @@ import axios from 'axios';
 
 export default function InputTags({
   register,
+  existTags,
 }: {
   register: UseFormRegister<Inputs>;
+  existTags?: { id: number; name: string }[];
 }) {
   const [tags, setTags] = useState<string[] | []>([]);
   const [value, setValue] = useState('');
   const [suggestions, setSuggestions] = useState<
     { id: number; name: string }[] | []
   >([]);
+
+  useEffect(() => {
+    if (existTags) setTags(existTags.map((tag) => tag.name));
+  }, [existTags]);
 
   const handleSearch = async (query: string) => {
     if (!query) {

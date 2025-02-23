@@ -24,6 +24,9 @@ export type Inputs = {
   tags: string[];
 };
 
+const DEFAULT_IMAGE =
+  'https://res.cloudinary.com/dgq7py5bd/image/upload/v1740302759/covers/bn8orhvus7hk0hcowkxt.png';
+
 export default function CreateTemplateForm() {
   const { error, data, loading, setConfig } = useAuthApiFetch();
   const [questions, setQuestions] = useState<Question[] | []>([]);
@@ -33,6 +36,7 @@ export default function CreateTemplateForm() {
     register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useForm<Inputs>();
 
   useEffect(() => {
@@ -43,7 +47,7 @@ export default function CreateTemplateForm() {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const imageFile = data.image.item(0);
-    const imageUrl = imageFile ? await uploadImage(imageFile) : null;
+    const imageUrl = imageFile ? await uploadImage(imageFile) : DEFAULT_IMAGE;
 
     setConfig({
       url: `${BACKEND_URL}/templates/create`,
@@ -72,7 +76,7 @@ export default function CreateTemplateForm() {
       })}
     >
       <TitleInput register={register} />
-      <DescriptionInput register={register} />
+      <DescriptionInput register={register} control={control} />
       <TopicSelector register={register} />
       <ImagePicker errors={errors} register={register} />
       <InputTags register={register} />
