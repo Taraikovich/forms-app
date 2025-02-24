@@ -1,15 +1,13 @@
+import TagList from '@/components/tag-list';
 import LatestTemplates from '@/components/template/latest-templates';
-import { BACKEND_URL } from '@/lib/constants';
-import axios from 'axios';
+import TopTemplates from '@/components/top-templates';
 
 export default async function Home() {
-  const response = await axios.get(`${BACKEND_URL}/templates/latest`);
-
-  const data = response.data;
-
   return (
     <main>
-      <LatestTemplates data={data} />
+      <LatestTemplates />
+      <TopTemplates />
+      <TagList />
     </main>
   );
 }

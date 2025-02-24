@@ -1,3 +1,5 @@
+import { BACKEND_URL } from '@/lib/constants';
+import axios from 'axios';
 import Link from 'next/link';
 import {
   Button,
@@ -18,7 +20,10 @@ type Template = {
   creator: { name: string };
 };
 
-export default function LatestTemplates({ data }: { data: Template[] }) {
+export default async function LatestTemplates() {
+  const response = await axios.get(`${BACKEND_URL}/templates/latest`);
+  const data = response.data;
+
   return (
     <>
       <h2 className="text-center">Latest templates</h2>
