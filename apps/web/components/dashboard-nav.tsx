@@ -10,6 +10,9 @@ export default function DashboardNav() {
       <Link href="/dashboard/forms">
         <Button variant="link">Forms</Button>
       </Link>
+      <Link href="/dashboard/contacts">
+        <Button variant="link">Contacts</Button>
+      </Link>
     </Nav>
   );
 }
