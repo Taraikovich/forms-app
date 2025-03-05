@@ -13,6 +13,9 @@ export default function DashboardNav() {
       <Link href="/dashboard/contacts">
         <Button variant="link">Contacts</Button>
       </Link>
+      <Link href="/dashboard/support">
+        <Button variant="link">Support</Button>
+      </Link>
     </Nav>
   );
 }

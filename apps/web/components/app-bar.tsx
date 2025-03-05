@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import {
-  Button,
   Container,
   Nav,
   Navbar,
@@ -9,8 +8,8 @@ import {
 } from 'react-bootstrap';
 import SignInButton from './signin-bitton';
 import { getSession } from '@/lib/session';
-import setTheme from '@/lib/setTheme';
 import ThemeSwitch from './theme-switch';
+import SupportForm from './support-form';
 
 export default async function AppBar() {
   const session = await getSession();
@@ -32,6 +31,9 @@ export default async function AppBar() {
                 Administration
               </Link>
             )}
+          </Nav>
+          <Nav>
+            <SupportForm />
           </Nav>
           <Nav>
             <SignInButton />
